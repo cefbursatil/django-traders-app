@@ -1,0 +1,22 @@
+{% extends "AppInvest/padre.html" %}
+{% load static %}{% block contenidoQueCambia %}
+<!--Aquí va lo que cambia, y lo asociado a está vista :) -->
+<h1>Traders</h1>
+<p>Info de los Traders</p>
+
+{% if miFormulario.errors %}
+<p style="color: red;"> Están mal los datos, revisar</p>
+{% endif %}
+{% for p in traders %}
+<li>{{p}}</li>
+<button>
+    <a href="{% url 'EliminarTrader' p.idTrader %}"> Eliminar</a>
+    <a href="{% url 'EditarTrader' p.idTrader %}"> Editar</a>
+</button>
+{% endfor %}
+
+<h2>Añadir un nuevo trader</h2>
+<form action="" method="POST">{% csrf_token %}
+<table>{{ miFormulario.as_table }}</table>
+<input type="submit" value="Enviar" /></form>
+{% endblock %}

@@ -1,0 +1,3 @@
+Como hacer que en los formularios se conecte con foreign key, 
+Como hacer para crear ids consecutivos y no repetidos cada vez que se agrege un item nuevo.
+como hacer para que en el formulario aparezca un dropdown con las opciones de otorga models.integerchoices

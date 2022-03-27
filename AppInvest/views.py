@@ -10,7 +10,7 @@ def inicio(request):
 
 ###TRADERS
 def traders(request):
-      traders = Traders.objects.all() 
+      traders = Traders.objects.all()
       #trae todos los profesores
       if request.method == 'POST':
             miFormulario = TradersForm(request.POST) 
@@ -19,7 +19,7 @@ def traders(request):
             if miFormulario.is_valid: 
                   #Si pasó la validación de Django
                   informacion = miFormulario.cleaned_data
-                  trader = Traders (idTrader=informacion['idTrader'], nombre=informacion['nombre'],apellido=informacion['apellido'], email=informacion['email'])
+                  trader = Traders(idTrader=informacion['idTrader'], nombre=informacion['nombre'],apellido=informacion['apellido'], email=informacion['email'])
                   trader.save()
                   return render(request, "AppInvest/inicio.html") #Vuelvo al inicio o a donde quieran
       else:
@@ -28,7 +28,8 @@ def traders(request):
       return render(request, "AppInvest/traders.html", contexto)
 
 def eliminarTrader(request, trader_id):
-      trader = Traders.objects.get(idTrader=trader_id)
+      #trader = Traders.objects.get(idTrader=trader_id)
+      trader = Traders.objects.get(id=trader_id)
       trader.delete()
       # vuelvo al menú
       traders = Traders.objects.all() # trae todos los profesores
@@ -37,13 +38,16 @@ def eliminarTrader(request, trader_id):
 
 def editarTrader(request, trader_id):
   # Recibe el nombre del profesor que vamos a modificar
-  trader = Traders.objects.get(idTrader=trader_id)
+  #trader = Traders.objects.get(idTrader=trader_id)
+  trader = Traders.objects.get(id=trader_id)
   # Si es metodo POST hago lo mismo que el agregar
   if request.method == 'POST':
     # aquí mellega toda la información del html
     miFormulario = TradersForm(request.POST)
-    print(miFormulario)
+    
+    #print(miFormulario)
     if miFormulario.is_valid: # Si pasó la validación de Django
+      print(miFormulario)
       informacion = miFormulario.cleaned_data
       trader.nombre = informacion['nombre']
       trader.apellido = informacion['apellido']
@@ -54,17 +58,21 @@ def editarTrader(request, trader_id):
   # En caso que no sea post
   else:
     # Creo el formulario con los datos que voy a modificar
-    miFormulario = TradersForm(initial={'idTrader': trader.idTrader,'nombre': trader.nombre, 'apellido': trader.apellido,
-                          'email': trader.email})
+    #miFormulario = TradersForm(initial={'idTrader': trader.idTrader,'nombre': trader.nombre, 'apellido': trader.apellido,
+    #                      'email': trader.email})
+    miFormulario = {'idTrader': trader.idTrader,'nombre': trader.nombre, 'apellido': trader.apellido,
+                          'email': trader.email}
   # Voy al html que me permite editar
-  return render(request, "AppInvest/editartrader.html", {"miFormulario": miFormulario, "idTrader": trader_id})
+  return render(request, "AppInvest/editartrader.html", {"miFormulario": miFormulario, "id": trader_id})
 
 #################################################
 
 def trades(request):
+      
       if request.method == 'POST':
             miFormulario = TradeForm(request.POST) 
             #aquí mellega toda la información del html
+            print(request.POST)
             print(miFormulario)
             if miFormulario.is_valid: 
                   #Si pasó la validación de Django

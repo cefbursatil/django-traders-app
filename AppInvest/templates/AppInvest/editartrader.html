@@ -1,13 +1,55 @@
 {% extends "AppInvest/padre.html" %}
+{% block Titulo %}
+Editar Trader
+{% endblock %}
+{% block pageTitle %}
+Editar Trader
+{% endblock %}
 {% load static %}{% block contenidoQueCambia %}
 <!--Aquí va lo que cambia, y lo asociado a está vista :) -->
-<h1>Formulario - Editar Trader</h1>
-{% if miFormulario.errors %}
-<p style="color: red;"> Están mal los datos, revisar</p>
-{% endif %}
-<form action="" method="POST">{% csrf_token %}
-    <!-- Acá está la magia de Django-->
-    <table>{{ miFormulario.as_table }}</table>
-    <input type="submit", value="Enviar">
-</form>
+<main class="container cuerpo">
+    <br>
+    <div class="row">
+        {% if miFormulario.errors %}
+        <p style="color: red;"> Están mal los datos, revisar</p>
+        {% endif %}
+        <br>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <!-- Acá está la magia de Django-->
+            <div class="form-group row">
+                <label for="id_idTrader" class="col-sm-3 col-form-label">idTrader</label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" id="id_idTrader" name="idTrader" placeholder="ID" required="" value="{{miFormulario.idTrader}}">
+                </div>
+            </div>
+            <br>
+            <div class="form-group row">
+                <label for="id_nombre" class="col-sm-3 col-form-label">Nombre</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="id_nombre" name="nombre" placeholder="Nombre" required="" value="{{miFormulario.nombre}}">
+                </div>
+            </div>
+            <br>
+            <div class="form-group row">
+                <label for="id_apellido" class="col-sm-3 col-form-label">Apellidos</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="id_apellido" name="apellido" maxlength="30" placeholder="Apellido" required="" value="{{miFormulario.apellido}}">
+                </div>
+            </div>
+            <br>
+            <div class="form-group row">
+                <label for="id_email" class="col-sm-3 col-form-label">Correo Electronico</label>
+                <div class="col-sm-9">
+                    <input type="email" class="form-control" id="id_email" name="email" placeholder="Email" required="" value="{{miFormulario.email}}">
+                </div>
+            </div>
+            <br>
+            <div class="text-end">
+                <input type="submit" class="btn btn-primary" value="Modificar">
+            </div>
+            <br 
+        </form>
+    </div>
+</main>
 {% endblock %}

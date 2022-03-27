@@ -8,7 +8,7 @@ Traders
 {% endblock %}
 {% block contenidoQueCambia %}
 <!--Aquí va lo que cambia, y lo asociado a está vista :) -->
-<div class="container cuerpo">
+<main class="container cuerpo">
     <p>Info de los Traders</p>
     {% if miFormulario.errors %}
     <p style="color: red;"> Están mal los datos, revisar</p>
@@ -16,46 +16,51 @@ Traders
     {% for p in traders %}
     <li>{{p}}</li>
     <button>
-        <a href="{% url 'EliminarTrader' p.idTrader %}"> Eliminar</a>
-        <a href="{% url 'EditarTrader' p.idTrader %}"> Editar</a>
+        <a href="{% url 'EliminarTrader' p.id %}"> Eliminar</a>
+    </button>
+    <button>
+        <a href="{% url 'EditarTrader' p.id %}"> Editar</a>
     </button>
     {% endfor %}
 
     <h2>Añadir un nuevo trader</h2>
     <br>
-    <form action="" method="POST">
-        {% csrf_token %}
-        <div class="form-group row">
-            <label for="id_idTrader" class="col-sm-3 col-form-label">idTrader</label>
-            <div class="col-sm-9">
-                <input type="number" class="form-control" id="id_idTrader" name="idTrader" placeholder="ID" required="">
+    <div class="row">
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class="form-group row">
+                <label for="id_idTrader" class="col-sm-3 col-form-label">idTrader</label>
+                <div class="col-sm-9">
+                    <input type="number" class="form-control" id="id_idTrader" name="idTrader" placeholder="ID" required="">
+                </div>
             </div>
-        </div>
-        <br>
-        <div class="form-group row">
-            <label for="id_nombre" class="col-sm-3 col-form-label">Nombre</label>
-            <div class="col-sm-9">
-                <input type="text" class="form-control" id="id_nombre" name="nombre" placeholder="Nombre" required="">
+            <br>
+            <div class="form-group row">
+                <label for="id_nombre" class="col-sm-3 col-form-label">Nombre</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="id_nombre" name="nombre" placeholder="Nombre" required="">
+                </div>
             </div>
-        </div>
-        <br>
-        <div class="form-group row">
-            <label for="id_apellido" class="col-sm-3 col-form-label">Apellidos</label>
-            <div class="col-sm-9">
-                <input type="text" class="form-control" id="id_apellido" name="apellido" maxlength="30" placeholder="Apellido" required="">
+            <br>
+            <div class="form-group row">
+                <label for="id_apellido" class="col-sm-3 col-form-label">Apellidos</label>
+                <div class="col-sm-9">
+                    <input type="text" class="form-control" id="id_apellido" name="apellido" maxlength="30" placeholder="Apellido" required="">
+                </div>
             </div>
-        </div>
-        <br>
-        <div class="form-group row">
-            <label for="id_email" class="col-sm-3 col-form-label">Correo Electronico</label>
-            <div class="col-sm-9">
-                <input type="email" class="form-control" id="id_email" name="email" placeholder="Email" required="">
+            <br>
+            <div class="form-group row">
+                <label for="id_email" class="col-sm-3 col-form-label">Correo Electronico</label>
+                <div class="col-sm-9">
+                    <input type="email" class="form-control" id="id_email" name="email" placeholder="Email" required="">
+                </div>
             </div>
-        </div>
-        <br>
-        <div class="text-end">
-            <input type="submit" class="btn btn-primary" value="Enviar">
-        </div>
-    </form>
-</div>
+            <br>
+            <div class="text-end">
+                <input type="submit" class="btn btn-primary" value="Enviar">
+            </div>
+            <br>
+        </form>
+    </div>
+</main>
 {% endblock %}

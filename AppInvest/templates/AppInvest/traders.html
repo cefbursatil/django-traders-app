@@ -9,20 +9,10 @@ Traders
 {% block contenidoQueCambia %}
 <!--Aquí va lo que cambia, y lo asociado a está vista :) -->
 <main class="container cuerpo">
-    <p>Info de los Traders</p>
     {% if miFormulario.errors %}
     <p style="color: red;"> Están mal los datos, revisar</p>
     {% endif %}
-    {% for p in traders %}
-    <li>{{p}}</li>
-    <button>
-        <a href="{% url 'EliminarTrader' p.id %}"> Eliminar</a>
-    </button>
-    <button>
-        <a href="{% url 'EditarTrader' p.id %}"> Editar</a>
-    </button>
-    {% endfor %}
-
+    
     <h2>Añadir un nuevo trader</h2>
     <br>
     <div class="row">

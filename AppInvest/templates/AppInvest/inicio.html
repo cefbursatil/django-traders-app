@@ -9,11 +9,39 @@ Trading
 {% block contenidoQueCambia %}
 <!--Aquí va lo que cambia, y lo asociado a está vista :) -->
 <main class="container">
-    <div class="p-4 p-md-5 mb-4 text-white rounded ">
-      <div class="col-md-6 px-0">
-        <h1 class="display-4 fst-italic">Sistema de registro y analisís de estrategias de trading</h1>
-        <p class="lead my-3">Descripcion .</p>
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-12 col-md-5 col-lg-6 order-md-2">
+
+        <!-- Image -->
+        <img src="{%static 'AppInvest/assets/img/illustration-2.png' %}" class="img-fluid mw-md-150 mw-lg-130 mb-6 mb-md-0 aos-init aos-animate" alt="..." data-aos="fade-up" data-aos-delay="100">
+
       </div>
-    </div>
+      <div class="col-12 col-md-7 col-lg-6 order-md-1 aos-init aos-animate" data-aos="fade-up">
+
+        <!-- Heading -->
+        <h1 class="display-3 text-center text-md-start">
+          Bienvenido a <span class="text-primary">Trading</span>. <br>
+          Develop anything.
+        </h1>
+
+        <!-- Text -->
+        <p class="lead text-center text-md-start text-muted mb-6 mb-lg-8">
+          Sistema de registro y analisís de estrategias de trading
+        </p>
+
+        <!-- Buttons -->
+        <div class="text-center text-md-start">
+          <a href="" class="btn btn-primary shadow lift me-1">
+            View all pages <i class="fe fe-arrow-right d-none d-md-inline ms-3"></i>
+          </a>
+          <a href="" class="btn btn-primary-soft lift">
+            Documentation
+          </a>
+        </div>
+
+      </div>
+    </div> <!-- / .row -->
+  </div>
 </main>
 {% endblock %}

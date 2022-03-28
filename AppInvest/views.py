@@ -27,6 +27,12 @@ def traders(request):
       contexto= {"traders":traders,"miFormulario":miFormulario}  
       return render(request, "AppInvest/traders.html", contexto)
 
+#Muestra los Traders Registrados
+def listTraders(request):
+      traders = Traders.objects.all()
+      contexto= {"traders":traders}  
+      return render(request, "AppInvest/list_traders.html", contexto)
+
 def eliminarTrader(request, trader_id):
       #trader = Traders.objects.get(idTrader=trader_id)
       trader = Traders.objects.get(id=trader_id)
@@ -34,7 +40,7 @@ def eliminarTrader(request, trader_id):
       # vuelvo al menú
       traders = Traders.objects.all() # trae todos los profesores
       contexto = {"traders": traders}
-      return render(request, "AppInvest/traders.html", contexto)
+      return render(request, "AppInvest/list_traders.html", contexto)
 
 def editarTrader(request, trader_id):
   # Recibe el nombre del profesor que vamos a modificar
@@ -54,7 +60,9 @@ def editarTrader(request, trader_id):
       trader.email = informacion['email']
       trader.save()
       # Vuelvo al inicio o a donde quieran
-      return render(request, "AppInvest/inicio.html")
+      traders = Traders.objects.all()
+      contexto= {"traders":traders}  
+      return render(request, "AppInvest/list_traders.html", contexto)
   # En caso que no sea post
   else:
     # Creo el formulario con los datos que voy a modificar

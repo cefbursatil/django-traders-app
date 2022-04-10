@@ -1,0 +1,86 @@
+{% extends "AppInvest/padre.html" %}
+{% load static %}
+{% block Titulo %}
+Trading Strategies
+{% endblock %}
+{% block pageTitle %}
+Trading Strategies
+{% endblock %}
+{% block contenidoQueCambia %}
+<!--Aquí va lo que cambia, y lo asociado a está vista :) -->
+
+<main class="container">
+    <div class="container px-4 py-5" id="featured-3">
+        {% if miFormulario.errors %}
+        <p style="color: red;"> Están mal los datos, revisar</p>
+        {% endif %}
+
+        <h2 class="pb-2 border-bottom">Trades de la estrategia</h2>
+        <div class="row">
+            {% for p in trades %}
+
+            <div class="col-12 col-md-6 col-lg-4">
+
+                <!-- Card -->
+                <div class="card card-border border-primary shadow-lg mb-6 mb-md-8 lift lift-lg">
+                    <div class="card-body text-center">
+
+                        <!-- Icon -->
+                        <div class="icon-circle bg-primary text-white mb-5">
+                            <i class="bi bi-person-circle"></i>
+                        </div>
+
+                        <!-- Heading -->
+                        <h4 class="fw-bold">
+
+                            <!-- Badge -->
+                            <span class="badge rounded-pill bg-dark-soft">
+                                <span class="h6 text-uppercase">
+                                    Nombre: {{p.nombre}}
+                                </span>
+                            </span>
+                        </h4>
+
+                        <!-- Text -->
+                        <p class="text-gray-700 mb-5">
+                            {{p.activo}}
+                        </p>
+                        <p>{{p.descripcion}}</p>
+                        <div class="col-auto">
+                            <a href="{% url 'TradesList' p.id %}">
+                                <button class="btn btn-danger text-white">
+                                    Ver Trades
+                                </button>
+                            </a>
+                        </div>    
+                        <div class="col-auto">
+                            <a href="{% url 'EliminarTradingStrat' p.id %}">
+                                <button class="btn btn-danger text-white">
+                                    Eliminar
+                                </button>
+                            </a>
+                            <a href="{% url 'EditarTradingStrat' p.id %}">
+                                <button class="btn btn-primary lift">
+                                    Editar
+                                </button>
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            {% endfor %}
+
+            <a href="{% url 'TradingStrategiesAdd'%}">
+                <button class="btn btn-danger text-white">
+                    Add New
+                </button>
+            </a>
+        </div>
+
+
+
+    </div>
+</main>
+{% endblock %}

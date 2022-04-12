@@ -1,48 +1,47 @@
 {% extends "AppInvest/padre.html" %}
-{% load static %}
 {% block Titulo %}
-TradingStrategy
+Editar Trader
 {% endblock %}
 {% block pageTitle %}
-TradingStrategy
+Editar Trader
 {% endblock %}
-{% block contenidoQueCambia %}
+{% load static %}{% block contenidoQueCambia %}
 <!--Aquí va lo que cambia, y lo asociado a está vista :) -->
 <main class="container cuerpo">
-    {% if miFormulario.errors %}
-    <p style="color: red;"> Están mal los datos, revisar</p>
-    {% endif %}
-    
-    <h2>Añadir una nueva Estrategia de Trading</h2>
     <br>
     <div class="row">
+        {% if miFormulario.errors %}
+        <p style="color: red;"> Están mal los datos, revisar</p>
+        {% endif %}
+        <br>
         <form action="" method="POST">
             {% csrf_token %}
+            <!-- Acá está la magia de Django-->
             <div class="form-group row">
                 <label for="id_nombre" class="col-sm-3 col-form-label">Nombre</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="id_nombre" name="nombre" placeholder="Nombre" required="" >
+                    <input type="text" class="form-control" id="id_nombre" name="nombre" placeholder="ID" required="" value="{{miFormulario.nombre}}">
                 </div>
             </div>
             <br>
             <div class="form-group row">
                 <label for="id_activo" class="col-sm-3 col-form-label">Activo</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="id_activo" name="activo" placeholder="activo" required="" >
+                    <input type="text" class="form-control" id="id_activo" name="activo" placeholder="Nombre" required="" value="{{miFormulario.activo}}">
                 </div>
             </div>
             <br>
             <div class="form-group row">
                 <label for="id_descripcion" class="col-sm-3 col-form-label">Descripción</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="id_descripcion" name="descripcion" maxlength="140" placeholder="Descripcion" required=""">
+                    <input type="text" class="form-control" id="id_descripcion" name="descripcion" maxlength="140" placeholder="Descripcion" required="" value="{{miFormulario.descripcion}}">
                 </div>
             </div>
             <br>
             <div class="text-end">
-                <input type="submit" class="btn btn-primary" value="Enviar">
+                <input type="submit" class="btn btn-primary" value="Modificar">
             </div>
-            <br>
+            <br 
         </form>
     </div>
 </main>

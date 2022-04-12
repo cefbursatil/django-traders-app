@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('AppCoder/', include('AppInvest.urls')),
+    path('', RedirectView.as_view(url='/AppInvest/', permanent=True)), # Para que ingrese directamente a nuestra pagina
+    path('AppInvest/', include('AppInvest.urls')),
 ]

@@ -19,6 +19,6 @@ urlpatterns = [
     path('trades/<tradingstrat_id>/', views.listTrades, name="TradesList"),
     path('login', views.login_request, name="Login"),
     path('register', views.register, name='Register'),
-    path('logout', LogoutView.as_view(template_name='AppInvest/logout.html'), name='Logout'),
+    path('logout', views.logout_request, name='Logout'),
     path('editarPerfil', views.editarPerfil, name="EditarPerfil"),
 ]

@@ -1,21 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-    <form action="" method="POST">
-        {% csrf_token %}
-            
-        {{ form.as_p }}
-
-        <button type="submit">Registrate!</button>
-
-    </form>
-
-</body>
-</html>
+{% extends 'AppInvest/padre.html'%}
+{% load static %}
+{% block Titulo %}
+Register
+{% endblock %}
+{% block contenidoQueCambia %}
+<main class="container">
+    <h2 class="pb-2 border-bottom">Registro</h2>
+    <br>
+    <div class="row justify-content-md-center">
+        {% if form.errors %}
+        <div class="alert alert-danger alert-dismissible col-sm-12" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>Error!</strong><br>
+            {% for field in form %}
+                <ul>
+                {% for error in field.errors %}
+                    <li><p> {{ error }} </p></li>
+                {% endfor %}
+                </ul>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <br>
+        <div class="col-sm-6">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="form-group row">
+                    <label for="id_nombre" class="col-sm-3 col-form-label">Usuario</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="id_username" name="username" placeholder="Usuario" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150"
+                            required="">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="id_nombre" class="col-sm-3 col-form-label">Email</label>
+                    <div class="col-sm-9">
+                        <input type="email" class="form-control" id="id_email" name="email" placeholder="Correo electronico" autocomplete="email" required="">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="id_apellido" class="col-sm-3 col-form-label">Contraseña</label>
+                    <div class="col-sm-9">
+                        <input type="password" class="form-control" name="password1" placeholder="*******" autocomplete="current-password" required="" id="id_password1">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="id_apellido" class="col-sm-3 col-form-label">Repetir contraseña</label>
+                    <div class="col-sm-9">
+                        <input type="password" class="form-control" name="password2" placeholder="*******" autocomplete="current-password" required="" id="id_password2">
+                    </div>
+                </div>
+                <div class="text-end float-right">
+                    <input type="submit" class="btn btn-success" value="Registrarse">
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}

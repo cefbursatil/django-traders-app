@@ -1,5 +1,7 @@
+from distutils.command.upload import upload
 from django.db import models
 from django.contrib.auth.models import User
+
 class Traders(models.Model):
     idTrader=models.IntegerField()
     nombre= models.CharField(max_length=30)
@@ -30,4 +32,3 @@ class Trades(models.Model):
     typeentry=models.IntegerField(default=TradeType.ENTRY, choices=TradeType.choices)
     precio = models.FloatField() #En que activo se aplica la estrategia
     descripcion = models.CharField(max_length=140) #Descripción general de la estrategia
-

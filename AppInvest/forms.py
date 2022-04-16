@@ -34,6 +34,12 @@ class UserRegisterForm(UserCreationForm):
         fields = ['username', 'email','password1', 'password2']
         # Saca los mensajes de ayuda
         help_texts = {k:"" for k in fields}
+        
+    def clean_email(self):
+      email = self.cleaned_data.get('email')
+      if User.objects.filter(email=email).exists():
+            raise forms.ValidationError(u'El email ya está registrado,prueba con otro.')
+      return email
 
 class UserEditForm(UserCreationForm):
     # Obligatorio
@@ -45,4 +51,6 @@ class UserEditForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['email', 'password1', 'password2', 'last_name', 'first_name']
+        # Saca los mensajes de ayuda
+        help_texts = {k:"" for k in fields}
 

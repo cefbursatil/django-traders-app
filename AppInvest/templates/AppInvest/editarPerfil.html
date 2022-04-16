@@ -1,0 +1,116 @@
+{% extends 'AppInvest/padre.html'%}
+{% load static %}
+{% block Titulo %}
+Perfil
+{% endblock %}
+{% block contenidoQueCambia %}
+
+<div class="container bootstrap snippet">
+    <div class="row">
+        <div class="col-sm-10">
+            <h1>Perfil</h1>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-sm-4">
+            <!--left col-->
+            <div class="text-center">
+                <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" class="avatar img-circle img-thumbnail" alt="avatar">
+                <h6>Cambiar Imagen...</h6>
+                <input type="file" class="text-center center-block file-upload">
+            </div>
+            </hr>
+        </div>
+        <!--/col-3-->
+        <div class="col-sm-8">
+            <hr>
+            {% if form.errors %}
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <strong>Error!</strong><br>
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+            {% endif %}
+            <form class="form" method="post" action="" enctype="multipart/form-data">
+                {% csrf_token %} 
+                <div class="form-group">
+
+                    <div class="col-xs-6">
+                        <label for="first_name">
+                            <h4>Nombre</h4>
+                        </label>
+                        <input type="text" class="form-control" name="first_name" id="first_name" placeholder="Nombre" value="{{ user.first_name}}" title="enter your first name if any.">
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    <div class="col-xs-6">
+                        <label for="last_name">
+                            <h4>Apellidos</h4>
+                        </label>
+                        <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Apellidos"  value="{{ user.last_name}}" title="enter your last name if any.">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+
+                    <div class="col-xs-6">
+                        <label for="last_name">
+                            <h4>Email</h4>
+                        </label>
+                        <input type="email" class="form-control" name="email" id="email" placeholder="correo Electronico"value="{{ user.email}}" title="enter your last name if any.">
+                    </div>
+                </div>
+                <!-- <div class="form-group">
+
+                    <div class="col-xs-6">
+                        <label for="phone">
+                            <h4>Teléfono</h4>
+                        </label>
+                        <input type="text" class="form-control" name="phone" id="phone" placeholder="enter phone" title="enter your phone number if any.">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-xs-6">
+                        <label for="mobile">
+                            <h4>Celular</h4>
+                        </label>
+                        <input type="text" class="form-control" name="mobile" id="mobile" placeholder="enter mobile number" title="enter your mobile number if any.">
+                    </div>
+                </div> -->
+                <div class="form-group">
+                    <div class="col-xs-6">
+                        <label for="password">
+                            <h4>Contraseña</h4>
+                        </label>
+                        <input type="password" class="form-control" name="password" id="password" placeholder="password" title="enter your password.">
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    <div class="col-xs-6">
+                        <label for="password2">
+                            <h4>Repetir Contraseña</h4>
+                        </label>
+                        <input type="password" class="form-control" name="password2" id="password2" placeholder="password2" title="enter your password2.">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <br>
+                        <button class="btn btn-lg btn-success" type="submit"><i class="glyphicon glyphicon-ok-sign"></i> Guardar</button>
+                    </div>
+                </div>
+            </form>
+            <hr>
+        </div>
+
+    </div>
+    <!--/col-9-->
+</div>
+<!--/row-->
+{% endblock %}

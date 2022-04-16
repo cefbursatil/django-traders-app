@@ -1,25 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-    <form action="" method="POST">
-        {% csrf_token %}
-            {{ form.as_p }}
-
-        <button type="submit">Inciar sesion</button>
-
-    </form>
-
-    <a href="{% url 'Register' %}">
-        <button class="btn btn-primary lift">
-            Registrarse si aún no tienes cuenta
-        </button>
-    </a>
-</body>
-</html>
+{% extends 'AppInvest/padre.html'%}
+{% load static %}
+{% block Titulo %}
+Login
+{% endblock %}
+{% block contenidoQueCambia %}
+<main class="container">
+    <h2 class="pb-2 border-bottom">Iniciar Sesión</h2>
+    <br>
+    <div class="row justify-content-md-center">
+        {% if form.errors %}
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <strong>Error!</strong><br>
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+        </div>
+        {% endif %}
+        <br>
+        <div class="col-sm-6">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="form-group row">
+                    <label for="id_nombre" class="col-sm-3 col-form-label">Usuario</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="id_username" name="username" placeholder="Usuario" autofocus="" autocapitalize="none" autocomplete="username" maxlength="150"
+                            required="">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="id_apellido" class="col-sm-3 col-form-label">Contraseña</label>
+                    <div class="col-sm-9">
+                        <input type="password" class="form-control" name="password" placeholder="*******" autocomplete="current-password" required="" id="id_password">
+                    </div>
+                </div>
+                <div class="text-end float-right">
+                    <input type="submit" class="btn btn-primary" value="Iniciar">
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}

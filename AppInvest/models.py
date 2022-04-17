@@ -1,6 +1,9 @@
 from distutils.command.upload import upload
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
+
+import os
 
 class Traders(models.Model):
     idTrader=models.IntegerField()
@@ -32,3 +35,18 @@ class Trades(models.Model):
     typeentry=models.IntegerField(default=TradeType.ENTRY, choices=TradeType.choices)
     precio = models.FloatField() #En que activo se aplica la estrategia
     descripcion = models.CharField(max_length=140) #Descripción general de la estrategia
+
+
+class Avatar(models.Model):
+    
+    #user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user  = models.OneToOneField(User, on_delete=models.CASCADE)
+    
+    avatar = models.ImageField(upload_to='avatar',null=True,blank=True)
+
+    def __str__(self):
+        return self.user.username
+    
+    def delete(self, using=None, keep_parents=False):
+        self.avatar.storage.delete(self.avatar.name)
+        super().delete()

@@ -1,4 +1,5 @@
 from django import forms
+from .models import Avatar
 
 class TradeForm(forms.Form):
 
@@ -41,16 +42,37 @@ class UserRegisterForm(UserCreationForm):
             raise forms.ValidationError(u'El email ya está registrado,prueba con otro.')
       return email
 
-class UserEditForm(UserCreationForm):
+#para editar solamente los datos del usuario
+class UserEditForm(forms.ModelForm):
     # Obligatorio
-    email = forms.EmailField(label="Ingrese su email:")
-    password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Repetir la contraseña', widget=forms.PasswordInput)
+    email = forms.EmailField()
     last_name = forms.CharField()
     first_name = forms.CharField()
     class Meta:
         model = User
-        fields = ['email', 'password1', 'password2', 'last_name', 'first_name']
+        fields = ['email', 'last_name', 'first_name']
         # Saca los mensajes de ayuda
         help_texts = {k:"" for k in fields}
 
+#para editar solamente la contraseña
+class UserEditPass(UserCreationForm):
+    # # Obligatorio
+    # email = forms.EmailField(label="Ingrese su email:")
+    password1 = forms.CharField(label='Contraseña', widget=forms.PasswordInput)
+    password2 = forms.CharField(label='Repetir la contraseña', widget=forms.PasswordInput)
+    
+    class Meta:
+        model = User
+        fields = ['email','password1', 'password2']
+
+#para editar avatar
+class UploadImageForm(forms.ModelForm):
+    avatar = forms.ImageField()
+
+    class Meta:
+        model = Avatar
+        fields = ['avatar']
+    
+    # def clean_avatar(self):
+    #     avatar = self.cleaned_data['avatar']
+    #     return avatar

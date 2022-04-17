@@ -1,19 +1,21 @@
+from xml.parsers.expat import model
 from django.conf import settings
 import email
-from django.shortcuts import render, HttpResponse,HttpResponseRedirect,redirect
+from django.shortcuts import render, HttpResponse, HttpResponseRedirect, redirect
 
 from django.http import HttpResponse
-from AppInvest.models import Trades, TradingStrategies, Traders
-from AppInvest.forms import TradeForm, TradingStrategyForm, TradersForm
+from AppInvest.models import Avatar, Trades, TradingStrategies, Traders,User
+from AppInvest.forms import TradeForm, TradingStrategyForm, TradersForm, UserEditPass,UploadImageForm
 # Para el login
 from AppInvest.forms import UserRegisterForm, UserEditForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import login, logout, authenticate,update_session_auth_hash
+
+from django.contrib import messages
 
 
-
-#@login_required
+# @login_required
 def inicio(request):
 
     return render(request, "AppInvest/inicio.html")
@@ -44,11 +46,13 @@ def traders(request):
 
 # Muestra los Traders Registrados
 
+
 @login_required
 def listTraders(request):
     traders = Traders.objects.all()
     contexto = {"traders": traders}
     return render(request, "AppInvest/list_traders.html", contexto)
+
 
 @login_required
 def eliminarTrader(request, trader_id):
@@ -59,6 +63,7 @@ def eliminarTrader(request, trader_id):
     traders = Traders.objects.all()  # trae todos los profesores
     contexto = {"traders": traders}
     return render(request, "AppInvest/list_traders.html", contexto)
+
 
 @login_required
 def editarTrader(request, trader_id):
@@ -94,11 +99,13 @@ def editarTrader(request, trader_id):
 
 #################################################
 
+
 @login_required
 def listTrades(request, tradingstrat_id):
     traders = Trades.objects.filter(strategy=tradingstrat_id)
     contexto = {"trades": trades}
     return render(request, "AppInvest/list_trades.html", contexto)
+
 
 @login_required
 def trades(request):
@@ -130,6 +137,7 @@ def listTradingStrategies(request):
     contexto = {"tradingstrat": tradingstrat}
     return render(request, "AppInvest/list_trading_strat.html", contexto)
 
+
 @login_required
 def eliminarTradingStrat(request, tradingstrat_id):
     #trader = Traders.objects.get(idTrader=trader_id)
@@ -139,6 +147,7 @@ def eliminarTradingStrat(request, tradingstrat_id):
     tradingstrat = TradingStrategies.objects.filter(trader=request.user.id)
     contexto = {"tradingstrat": tradingstrat}
     return render(request, "AppInvest/list_trading_strat.html", contexto)
+
 
 @login_required
 def editarTradingStrat(request, tradingstrat_id):
@@ -174,6 +183,7 @@ def editarTradingStrat(request, tradingstrat_id):
     # Voy al html que me permite editar
     return render(request, "AppInvest/editartradingstrat.html", {"miFormulario": miFormulario, "id": tradingstrat_id})
 
+
 @login_required
 def tradingstrategies(request):
     if request.method == 'POST':
@@ -197,11 +207,12 @@ def tradingstrategies(request):
 
 # Vista de login
 
+
 def login_request(request):
 
     redirect_to = request.GET.get('next', '')
     if request.user.is_authenticated:
-        return HttpResponseRedirect("/",locals())
+        return HttpResponseRedirect("/", locals())
 
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
@@ -214,11 +225,11 @@ def login_request(request):
                 if user.is_active:
                     login(request, user)
                     if redirect_to:
-                        return HttpResponseRedirect(redirect_to,{"mensaje": f"Bienvenido {usuario}"})
+                        return HttpResponseRedirect(redirect_to, {"mensaje": f"Bienvenido {usuario}"})
                     else:
-                        return HttpResponseRedirect("/",locals(),{"mensaje": f"Bienvenido {usuario}"})
-                    #return HttpResponseRedirect("/",locals())
-                    #return render(request, "AppInvest/inicio.html", {"mensaje": f"Bienvenido {usuario}"})
+                        return HttpResponseRedirect("/", locals(), {"mensaje": f"Bienvenido {usuario}"})
+                    # return HttpResponseRedirect("/",locals())
+                    # return render(request, "AppInvest/inicio.html", {"mensaje": f"Bienvenido {usuario}"})
         else:
             # form.add_error(None, 'Usuario y/o Contraseña incorrecta')#agrega mensaje
             pass
@@ -227,19 +238,24 @@ def login_request(request):
 
     return render(request, "AppInvest/login.html", {"form": form})
 
+
 def logout_request(request):
     logout(request)
-    return HttpResponseRedirect("/",locals())
+    return HttpResponseRedirect("/", locals())
+
 
 def register(request):
+    if request.user.is_authenticated:
+        return HttpResponseRedirect("/", locals())
 
     if request.method == 'POST':
         #form = UserCreationForm(request.POST)
         form = UserRegisterForm(request.POST)
+        print(form.is_valid())
         if form.is_valid():
             username = form.cleaned_data['username']
             form.save()
-            return HttpResponseRedirect("login",locals())
+            return HttpResponseRedirect("login", locals())
 
     else:
         #form = UserCreationForm()
@@ -252,17 +268,62 @@ def register(request):
 @login_required
 def editarPerfil(request):
     usuario = request.user
+    
     if request.method == 'POST':
         miFormulario = UserEditForm(request.POST)
+        avatar_form  = UploadImageForm(request.POST,request.FILES)
+        
         if miFormulario.is_valid():
             informacion = miFormulario.cleaned_data
             usuario.email = informacion['email']
-            usuario.password1 = informacion['password1']
-            usuario.password2 = informacion['password2']
             usuario.last_name = informacion['last_name']
             usuario.first_name = informacion['first_name']
             usuario.save()
-            return render(request, "AppInvest/inicio.html")
+            messages.success(
+                request, 'Datos de perfil actualizados.', extra_tags='success')
+        else:
+            messages.error(
+                request, 'Ocurrio un error al actualizar datos de perfil.', extra_tags='danger')
+
+        
+        if avatar_form.is_valid():
+            usr = User.objects.get(username=request.user)
+            Avatar.objects.get(user=usr).delete()
+            avatar = Avatar(user=usr,avatar=avatar_form.cleaned_data['avatar'])
+            avatar.save()
+            messages.success(
+                request, 'Avatar actualizado.', extra_tags='success')
+
+        return render(request, "AppInvest/editarPerfil.html")
     else:
         miFormulario = UserEditForm(initial={'email': usuario.email})
-    return render(request, "AppInvest/editarPerfil.html", {"miFormulario": miFormulario, "usuario": usuario})
+    return render(request, "AppInvest/editarPerfil.html", {"form": miFormulario, "usuario": usuario})
+
+# Vista de editar el perfil
+@login_required
+def changePassword(request):
+    usuario = request.user
+    redirect_to = request.GET.get('next', '')
+    
+    if request.method == 'POST':
+        form = UserEditPass(request.POST)
+
+        if form.is_valid():
+            informacion = form.cleaned_data
+            user_pass = User.objects.get(username=request.user)
+            user_pass.set_password(informacion['password1'])
+            user_pass.save()
+            messages.success(
+                request, 'Contraseña actualizada.', extra_tags='success')
+            if redirect_to:
+                return HttpResponseRedirect(redirect_to, {"mensaje": f"Bienvenido {usuario}"})
+            else:
+                return HttpResponseRedirect("editarPerfil", locals())
+        else:
+            messages.error(
+                request, 'Ocurrio un error al actualizar contraseña.', extra_tags='danger')
+
+        
+    else:
+        form = UserEditPass(initial={'email': usuario.email})
+    return render(request, "AppInvest/changePass.html", {"form": form, "usuario": usuario})

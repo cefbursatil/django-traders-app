@@ -39,8 +39,6 @@ Perfil
                     {% else %}
                         <img src="/media/avatar/user_default_profile.png" class="avatar img-circle img-thumbnail" alt="avatar">
                     {% endif %}
-                    <h6>Cambiar Imagen...</h6>
-                    <input type="file"name="avatar" accept="image/*" id="id_avatar"  class="text-center center-block file-upload" style="width:100%">
                 </div>
                 </hr>
             </div>
@@ -59,13 +57,14 @@ Perfil
 
                 </div>
                 {% endif %}
+
                 <div class="form-group">
 
                     <div class="col-xs-6">
                         <label for="first_name">
                             <h4>Nombre</h4>
                         </label>
-                        <input type="text" class="form-control" name="first_name" id="first_name" placeholder="Nombre" value="{{ user.first_name}}" required="">
+                        <h4 class="text-primary">{{ user.first_name}}</h4>
                     </div>
                 </div>
                 <div class="form-group">
@@ -74,7 +73,7 @@ Perfil
                         <label for="last_name">
                             <h4>Apellidos</h4>
                         </label>
-                        <input type="text" class="form-control" name="last_name" id="last_name" placeholder="Apellidos" value="{{ user.last_name}}" required="">
+                        <h4 class="text-primary">{{ user.last_name}}</h4>
                     </div>
                 </div>
 
@@ -84,7 +83,7 @@ Perfil
                         <label for="last_name">
                             <h4>Email</h4>
                         </label>
-                        <input type="email" class="form-control" name="email" id="email" placeholder="correo Electronico" value="{{ user.email}}" required="">
+                        <h4 class="text-primary">{{ user.email}}</h4>
                     </div>
                 </div>
                 <div class="form-group">
@@ -92,7 +91,16 @@ Perfil
                         <label for="password">
                             <h4>Contraseña</h4>
                         </label>
-                        <a class="btn btn-primary" href="{% url 'ChangePassword' %}?next=/AppInvest/editarPerfil"> Cambiar contraseña</a>
+                        <input type="password" class="form-control" name="password1" id="password1" placeholder="******" required="">
+                    </div>
+                </div>
+                <div class="form-group">
+
+                    <div class="col-xs-6">
+                        <label for="password2">
+                            <h4>Repetir Contraseña</h4>
+                        </label>
+                        <input type="password" class="form-control" name="password2" id="password2" placeholder="******" required="">
                     </div>
                 </div>
                 <div class="form-group">
@@ -101,6 +109,7 @@ Perfil
                     </div>
                 </div>
                 <hr>
+
             </div>
         </div>
         </form>

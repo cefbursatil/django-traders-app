@@ -34,18 +34,22 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
+                    {% if request.user.is_staff %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'Traders' %}">Traders</a>
                     </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'TradingStrategies' %}">Trading Strategies</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'Trades' %}">Trades</a>
                     </li>
+                    {% if request.user.is_staff %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'Usuarios' %}">Usuarios</a>
                     </li>
+                    {% endif %}
                 </ul>
                 <div class="position-relative mr-3 mb-4 mb-lg-0 d-inline-block">
                     {% if request.user.is_authenticated %}

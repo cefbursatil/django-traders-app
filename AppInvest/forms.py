@@ -2,13 +2,21 @@ from django import forms
 from .models import Avatar
 
 class TradeForm(forms.Form):
+    time=forms.CharField(max_length=40)
+    asset=forms.CharField(max_length=40)
+    tradeDirection=forms.IntegerField()#(0-entry, 1-exit)
+    typeentry=forms.IntegerField()#(0-Buy, 1-Sell)
+    volume = forms.FloatField() #que volumen
+    price = forms.FloatField() #a que precio
+    stopPrice = forms.FloatField() #a que precio el stop
+    tpPrice = forms.FloatField() #a que precio el tp
+    comission = forms.FloatField() #cual fué la comision
+    fee = forms.FloatField() #cual fué el fee
+    swap = forms.FloatField() #cual fué el swap
+    profit = forms.FloatField() #cual fué el swap
+    balance = forms.FloatField() #cual fué el swap
+    comment = forms.CharField(max_length=140)
 
-    idTrade=forms.IntegerField()
-    activo=forms.CharField(max_length=40)
-    tradeDirection=forms.IntegerField()
-    typeentry=forms.IntegerField()
-    precio = forms.FloatField() #En que activo se aplica la estrategia
-    descripcion = forms.CharField(max_length=140) #Descripción general de la estrategia
 
 class TradingStrategyForm(forms.Form):
     nombre=forms.CharField(max_length=40)

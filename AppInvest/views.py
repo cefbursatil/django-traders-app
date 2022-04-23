@@ -13,7 +13,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login, logout, authenticate,update_session_auth_hash
 
 from django.contrib import messages
-
+import io,csv
 
 # @login_required
 def inicio(request):
@@ -99,34 +99,143 @@ def editarTrader(request, trader_id):
 
 #################################################
 
+##trades
 
 @login_required
 def listTrades(request, tradingstrat_id):
-    traders = Trades.objects.filter(strategy=tradingstrat_id)
-    contexto = {"trades": trades}
+    trades = Trades.objects.filter(strategy=tradingstrat_id)
+    contexto = {"trades": trades,"tradingstrat_id":tradingstrat_id}
     return render(request, "AppInvest/list_trades.html", contexto)
 
 
 @login_required
-def trades(request):
+def trades(request,tradingstrat_id):
 
     if request.method == 'POST':
         miFormulario = TradeForm(request.POST)
         # aquí mellega toda la información del html
         print(request.POST)
         print(miFormulario)
-        if miFormulario.is_valid:
+        if miFormulario.is_valid():
             # Si pasó la validación de Django
+
             informacion = miFormulario.cleaned_data
+            tradingstrat = TradingStrategies.objects.get(id=tradingstrat_id)
+            print("informacion")
+            print(informacion)
             # Falta Traer el foreign key
-            trade = Trades(idTrade=informacion['idTrade'], activo=informacion['activo'], tradeDirection=informacion['tradeDirection'],
-                           typeentry=informacion['typeentry'], precio=informacion['precio'], descripcion=informacion['descripcion'])
+            trade = Trades(strategy=tradingstrat,time=informacion['time'], asset=informacion['asset'], tradeDirection=informacion['tradeDirection'],
+                           typeentry=informacion['typeentry'], volume=informacion['volume'], 
+                           price=informacion['price'],
+                           stopPrice=informacion['stopPrice'], tpPrice=informacion['tpPrice'], 
+                           comission=informacion['comission'], fee=informacion['fee'], 
+                           swap=informacion['swap'],profit=informacion['profit'],
+                           balance=informacion['balance'], comment=informacion['comment'])
             trade.save()
             # Vuelvo al inicio o a donde quieran
-            return render(request, "AppInvest/inicio.html")
+            return render(request, "AppInvest/list_trades.html")
     else:
+        print("NOVALID FORM")
         miFormulario = TradeForm()  # Formulario vacio para construir el html
     return render(request, "AppInvest/trades.html", {"miFormulario": miFormulario})
+
+
+@login_required
+def eliminarTrades(request, trade_id,tradingstrat_id):
+    #trader = Traders.objects.get(idTrader=trader_id)
+    trade = Trades.objects.get(id=trade_id)
+    trade.delete()
+    # vuelvo al menú
+    traders = Trades.objects.filter(strategy=tradingstrat_id)
+    contexto = {"trades": trades,"tradingstrat_id":tradingstrat_id}
+    return render(request, "AppInvest/list_trades.html", contexto)
+
+
+@login_required
+def editarTrades(request, trade_id,tradingstrat_id):
+    # Recibe el nombre del profesor que vamos a modificar
+    #trader = Traders.objects.get(idTrader=trader_id)
+    trade = Trades.objects.get(id=trade_id)
+    tradingstrat = TradingStrategies.objects.get(id=tradingstrat_id)
+    # Si es metodo POST hago lo mismo que el agregar
+    if request.method == 'POST':
+        # aquí mellega toda la información del html
+        miFormulario = TradeForm(request.POST)
+        print("ERRORES FORM")
+        print(miFormulario.errors)
+        # print(miFormulario)
+        if miFormulario.is_valid():  # Si pasó la validación de Django
+            print(miFormulario)
+            informacion = miFormulario.cleaned_data
+            trade.time = informacion['time']
+            trade.asset = informacion['asset']
+            trade.tradeDirection = informacion['tradeDirection']
+            trade.strategy = tradingstrat
+            trade.typeentry = informacion['typeentry']
+            trade.volume = informacion['volume']
+            trade.price = informacion['price']
+            trade.stopPrice = informacion['stopPrice']
+            trade.tpPrice = informacion['tpPrice']
+            trade.comission = informacion['comission']
+            trade.fee = informacion['fee']
+            trade.swap = informacion['swap']
+            trade.profit = informacion['profit']
+            trade.balance = informacion['balance']
+            trade.comment = informacion['comment']
+            trade.save()
+            # Vuelvo al inicio o a donde quieran
+            trades = Trades.objects.filter(strategy=tradingstrat_id)
+            contexto = {"trades": trades,"tradingstrat_id":tradingstrat_id}
+            return render(request, "AppInvest/list_trades.html", contexto)
+        # En caso que no sea post
+    else:
+        # Creo el formulario con los datos que voy a modificar
+        # miFormulario = TradersForm(initial={'idTrader': trader.idTrader,'nombre': trader.nombre, 'apellido': trader.apellido,
+        #                      'email': trader.email})
+        print("ERRORES FORM")
+        trade = Trades.objects.get(id=trade_id)
+        miFormulario = {'time': trade.time, 'asset': trade.asset, 'tradeDirection':trade.tradeDirection ,
+                        'strategy': tradingstrat,'typeentry': trade.typeentry,'volume': trade.volume,
+                        'price': trade.price,'stopPrice': trade.stopPrice,'tpPrice': trade.tpPrice,
+                        'comission': trade.comission,'fee': trade.fee,'swap': trade.swap,
+                        'profit': trade.profit,'balance': trade.balance,'comment': trade.comment}
+    # Voy al html que me permite editar
+    return render(request, "AppInvest/editartrade.html", {"miFormulario": miFormulario, "id": trade_id})
+
+def TradesUpload(request,tradingstrat_id):
+    tradingstrat = TradingStrategies.objects.get(id=tradingstrat_id)
+    if request.method == 'POST':
+        paramFile = io.TextIOWrapper(request.FILES['tradesFile'].file)
+        portfolio1 = csv.DictReader(paramFile)
+        list_of_dict = list(portfolio1)
+        
+        objs = [
+            Trades(
+            strategy=tradingstrat,
+            time=row['time'], asset=row['asset'], tradeDirection=row['tradeDirection'],
+            typeentry=row['typeentry'], volume=row['volume'], 
+            price=row['price'],
+            stopPrice=row['stopPrice'], tpPrice=row['tpPrice'], 
+            comission=row['comission'], fee=row['fee'], 
+            swap=row['swap'],profit=row['profit'],
+            balance=row['balance'], comment=row['comment']    
+            )
+            for row in list_of_dict
+        ]
+        try:
+            msg = Trades.objects.bulk_create(objs)
+            returnmsg = {"status_code": 200}
+            print('imported successfully')
+        except Exception as e:
+            print('Error While Importing Data: ',e)
+            returnmsg = {"status_code": 500}
+        trades = Trades.objects.filter(strategy=tradingstrat_id)
+        contexto = {"trades": trades,"tradingstrat_id":tradingstrat_id}
+        return render(request, "AppInvest/list_trades.html", contexto)
+    contexto = {"tradingstrat_id":tradingstrat_id}    
+    return render(request, "AppInvest/importtrades.html", contexto)
+
+    
 
 
 # TRADING STRATEGIES

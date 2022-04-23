@@ -1,0 +1,24 @@
+{% extends "AppInvest/padre.html" %}
+{% load static %}
+{% block Titulo %}
+Trading Strategies
+{% endblock %}
+{% block pageTitle %}
+Trading Strategies
+{% endblock %}
+{% block contenidoQueCambia %}
+<!--Aquí va lo que cambia, y lo asociado a está vista :) -->
+
+<main class="container">
+    <div class="container px-4 py-5" id="featured-3">
+        <h4>Import trades</h4>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="tradesFile">
+    <button type="submit">Upload</button>
+  </form>
+
+
+    </div>
+</main>
+{% endblock %}

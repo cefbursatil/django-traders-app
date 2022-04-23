@@ -36,30 +36,23 @@ Trading Strategies
                             <!-- Badge -->
                             <span class="badge rounded-pill bg-dark-soft">
                                 <span class="h6 text-uppercase">
-                                    Nombre: {{p.nombre}}
+                                    Nombre: {{p.asset}}
                                 </span>
                             </span>
                         </h4>
 
                         <!-- Text -->
                         <p class="text-gray-700 mb-5">
-                            {{p.activo}}
+                            {{p.price}}
                         </p>
-                        <p>{{p.descripcion}}</p>
+                        <p>{{p.tradeDirection}}</p>
                         <div class="col-auto">
-                            <a href="{% url 'TradesList' p.id %}">
-                                <button class="btn btn-danger text-white">
-                                    Ver Trades
-                                </button>
-                            </a>
-                        </div>    
-                        <div class="col-auto">
-                            <a href="{% url 'EliminarTradingStrat' p.id %}">
+                            <a href="{% url 'EliminarTrade' p.id tradingstrat_id %}">
                                 <button class="btn btn-danger text-white">
                                     Eliminar
                                 </button>
                             </a>
-                            <a href="{% url 'EditarTradingStrat' p.id %}">
+                            <a href="{% url 'EditarTrade' p.id tradingstrat_id %}">
                                 <button class="btn btn-primary lift">
                                     Editar
                                 </button>
@@ -72,9 +65,14 @@ Trading Strategies
             </div>
             {% endfor %}
 
-            <a href="{% url 'TradingStrategiesAdd'%}">
+            <a href="{% url 'TradesAdd' tradingstrat_id %}">
                 <button class="btn btn-danger text-white">
                     Add New
+                </button>
+            </a>
+            <a href="{% url 'importtrade' tradingstrat_id %}">
+                <button class="btn btn-danger text-white">
+                    Import Trades from csv
                 </button>
             </a>
         </div>

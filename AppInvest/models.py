@@ -22,19 +22,21 @@ class TradingStrategies(models.Model):
 
 class Trades(models.Model):
     #Choices type
-    class TradeType(models.IntegerChoices):
-        ENTRY = 0, 'Entry'
-        EXIT = 1, 'Exit'
-    
-    class TradeDirection(models.IntegerChoices):
-        BUY = 0, 'Buy'
-        SELL = 1, 'Sell'
     strategy=models.ForeignKey(TradingStrategies, on_delete=models.CASCADE)
-    activo=models.CharField(max_length=40)
-    tradeDirection=models.IntegerField( choices=TradeDirection.choices)
-    typeentry=models.IntegerField(default=TradeType.ENTRY, choices=TradeType.choices)
-    precio = models.FloatField() #En que activo se aplica la estrategia
-    descripcion = models.CharField(max_length=140) #Descripción general de la estrategia
+    time=models.CharField(max_length=40)
+    asset=models.CharField(max_length=40)
+    tradeDirection=models.IntegerField()
+    typeentry=models.IntegerField()
+    volume = models.FloatField() #que volumen
+    price = models.FloatField() #a que precio
+    stopPrice = models.FloatField() #a que precio el stop
+    tpPrice = models.FloatField() #a que precio el tp
+    comission = models.FloatField(default=0) #cual fué la comision
+    fee = models.FloatField(default=0) #cual fué el fee
+    swap = models.FloatField(default=0) #cual fué el swap
+    profit = models.FloatField(default=0) #cual fué el swap
+    balance = models.FloatField(default=0) #cual fué el swap
+    comment = models.CharField(max_length=140,default="") #descripción del trade
 
 
 class Avatar(models.Model):

@@ -19,7 +19,7 @@ Trading Strategies
         <div class="row">
             {% for p in tradingstrat %}
 
-            <div class="col-12 col-md-6 col-lg-4">
+            <div class="col-12 col-md-6 col-lg-4 p-2">
 
                 <!-- Card -->
                 <div class="card card-border border-primary shadow-lg mb-6 mb-md-8 lift lift-lg">
@@ -48,8 +48,8 @@ Trading Strategies
                         <p>{{p.descripcion}}</p>
                         <div class="col-auto">
                             <a href="{% url 'TradesList' p.id %}">
-                                <button class="btn btn-primary text-white">
-                                    Ver Trades
+                                <button class="btn btn-warning text-white">
+                                    <i class="fas fa-address-card" aria-hidden="true"></i> Ver Trades
                                 </button>
                             </a>
                         </div>    
@@ -57,12 +57,12 @@ Trading Strategies
                         <div class="col-auto">
                             <a href="{% url 'EliminarTradingStrat' p.id %}">
                                 <button class="btn btn-danger text-white">
-                                    Eliminar
+                                    <i class="fas fa-trash" aria-hidden="true"></i>Eliminar
                                 </button>
                             </a>
                             <a href="{% url 'EditarTradingStrat' p.id %}">
                                 <button class="btn btn-primary lift">
-                                    Editar
+                                    <i class="fas fa-edit" aria-hidden="true"></i> Editar
                                 </button>
                             </a>
                         </div>
@@ -74,8 +74,8 @@ Trading Strategies
             {% endfor %}
 
             <a href="{% url 'TradingStrategiesAdd' %}">
-                <button class="btn btn-danger text-white">
-                    Add New
+                <button class="btn btn-success text-white">
+                    <i class="fas fa-plus" aria-hidden="true"></i>  Add New
                 </button>
             </a>
         </div>

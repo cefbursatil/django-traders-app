@@ -24,5 +24,6 @@ urlpatterns = [
     path('logout', views.logout_request, name='Logout'),
     path('editarPerfil', views.editarPerfil, name="EditarPerfil"),
     path('changePassword', views.changePassword, name="ChangePassword"),
-    path('importtrades/<tradingstrat_id>/', views.TradesUpload, name='importtrade')
+    path('importtrades/<tradingstrat_id>/', views.TradesUpload, name='importtrade'),
+    path('about', views.about, name='About'),
 ]

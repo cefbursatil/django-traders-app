@@ -20,6 +20,10 @@ def inicio(request):
 
     return render(request, "AppInvest/inicio.html")
 
+# @login_required
+def about(request):
+
+    return render(request, "AppInvest/about.html")
 
 # TRADERS
 @login_required
@@ -205,33 +209,37 @@ def editarTrades(request, trade_id,tradingstrat_id):
 def TradesUpload(request,tradingstrat_id):
     tradingstrat = TradingStrategies.objects.get(id=tradingstrat_id)
     if request.method == 'POST':
-        paramFile = io.TextIOWrapper(request.FILES['tradesFile'].file)
-        portfolio1 = csv.DictReader(paramFile)
-        list_of_dict = list(portfolio1)
-        
-        objs = [
-            Trades(
-            strategy=tradingstrat,
-            time=row['time'], asset=row['asset'], tradeDirection=row['tradeDirection'],
-            typeentry=row['typeentry'], volume=row['volume'], 
-            price=row['price'],
-            stopPrice=row['stopPrice'], tpPrice=row['tpPrice'], 
-            comission=row['comission'], fee=row['fee'], 
-            swap=row['swap'],profit=row['profit'],
-            balance=row['balance'], comment=row['comment']    
-            )
-            for row in list_of_dict
-        ]
-        try:
-            msg = Trades.objects.bulk_create(objs)
-            returnmsg = {"status_code": 200}
-            print('imported successfully')
-        except Exception as e:
-            print('Error While Importing Data: ',e)
-            returnmsg = {"status_code": 500}
-        trades = Trades.objects.filter(strategy=tradingstrat_id)
-        contexto = {"trades": trades,"tradingstrat_id":tradingstrat_id}
-        return render(request, "AppInvest/list_trades.html", contexto)
+        if request.FILES['tradesFile'].content_type != 'application/vnd.ms-excel':
+            messages.error(
+                request, 'Archivo invalido.', extra_tags='danger')
+        else:
+            paramFile = io.TextIOWrapper(request.FILES['tradesFile'].file)
+            portfolio1 = csv.DictReader(paramFile)
+            list_of_dict = list(portfolio1)
+            
+            objs = [
+                Trades(
+                strategy=tradingstrat,
+                time=row['time'], asset=row['asset'], tradeDirection=row['tradeDirection'],
+                typeentry=row['typeentry'], volume=row['volume'], 
+                price=row['price'],
+                stopPrice=row['stopPrice'], tpPrice=row['tpPrice'], 
+                comission=row['comission'], fee=row['fee'], 
+                swap=row['swap'],profit=row['profit'],
+                balance=row['balance'], comment=row['comment']    
+                )
+                for row in list_of_dict
+            ]
+            try:
+                msg = Trades.objects.bulk_create(objs)
+                returnmsg = {"status_code": 200}
+                print('imported successfully')
+            except Exception as e:
+                print('Error While Importing Data: ',e)
+                returnmsg = {"status_code": 500}
+            trades = Trades.objects.filter(strategy=tradingstrat_id)
+            contexto = {"trades": trades,"tradingstrat_id":tradingstrat_id}
+            return render(request, "AppInvest/list_trades.html", contexto)
     contexto = {"tradingstrat_id":tradingstrat_id}    
     return render(request, "AppInvest/importtrades.html", contexto)
 
@@ -397,7 +405,8 @@ def editarPerfil(request):
         
         if avatar_form.is_valid():
             usr = User.objects.get(username=request.user)
-            Avatar.objects.get(user=usr).delete()
+            if Avatar.objects.filter(user=usr).exists():
+                Avatar.objects.get(user=usr).delete()
             avatar = Avatar(user=usr,avatar=avatar_form.cleaned_data['avatar'])
             avatar.save()
             messages.success(

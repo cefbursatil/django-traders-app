@@ -14,111 +14,126 @@ Editar Trader
         <p style="color: red;"> Están mal los datos, revisar</p>
         {% endif %}
         <br>
-        <form action="" method="POST">
-            {% csrf_token %}
-            <div class="form-group row">
-                <label for="id_time" class="col-sm-3 col-form-label">time</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" id="id_time" name="time" value="{{miFormulario.time}}" placeholder="01.01.2022" required="" >
+        <div class="col-12">
+            <form action="" method="POST">
+                {% csrf_token %}
+                <div class="form-group row">
+                    <label for="id_time" class="col-sm-3 col-form-label">Time</label>
+                    <div class="col-sm-9">
+                        <input type="datetime-local" class="form-control" id="id_time" name="time" value="{{miFormulario.time}}" placeholder="01.01.2022" required="">
+                    </div>
                 </div>
-            </div>
-            <br>
-            <div class="form-group row">
-                <label for="id_asset" class="col-sm-3 col-form-label">asset</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" id="id_asset" name="asset" value="{{miFormulario.asset}}" placeholder="asset" required="" >
+
+                <div class="form-group row">
+                    <label for="id_asset" class="col-sm-3 col-form-label">Asset</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="id_asset" name="asset" value="{{miFormulario.asset}}" placeholder="asset" required="">
+                    </div>
                 </div>
-            </div>
-            <br>
-            <div class="form-group row">
-                <label for="id_tradeDirection" class="col-sm-3 col-form-label">tradeDirection (0-entry, 1-exit)</label>
-                <div class="col-sm-9">
-                    <input type="numeric" inputmode="numeric" pattern="[0-1]" class="form-control" value="{{miFormulario.tradeDirection}}" id="id_tradeDirection" name="tradeDirection" placeholder=0 required=""">
+
+                <div class="form-group row">
+                    <label for="id_tradeDirection" class="col-sm-3 col-form-label">Trade Direction</label>
+                    <div class="col-sm-9">
+                        <select name="tradeDirection" id="id_tradeDirection" class="form-control" required="">
+                            <option value="">-- Select --</option>
+                            <option value="0" {% if miFormulario.tradeDirection == 0 %} selected {% endif %}>Entry</option>
+                            <option value="1" {% if miFormulario.tradeDirection == 1 %} selected {% endif %}>Exit</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <br>
-            <div class="form-group row">
-                <label for="id_typeentry" class="col-sm-3 col-form-label">typeentry (0-Buy, 1-Sell)</label>
-                <div class="col-sm-9">
-                    <input type="numeric" inputmode="numeric" pattern="[0-1]" class="form-control" value="{{miFormulario.typeentry}}" id="id_typeentry" name="typeentry" placeholder=0 required=""">
+
+                <div class=" form-group row">
+                    <label for="id_typeentry" class="col-sm-3 col-form-label">Type entry</label>
+                    <div class="col-sm-9">
+                        <select name="typeentry" id="id_typeentry" class="form-control" required="">
+                            <option value="">-- Select --</option>
+                            <option value="0" {% if miFormulario.typeentry == 0 %} selected {% endif %}>Buy</option>
+                            <option value="1" {% if miFormulario.typeentry == 1 %} selected {% endif %}>Sell</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <br>
-            <div class="form-group row">
-                <label for="id_volume" class="col-sm-3 col-form-label">volume</label>
-                <div class="col-sm-9">
-                    <input type="numeric" class="form-control" id="id_volume" name="volume" value="{{miFormulario.volume}}" placeholder=1 required="" >
+
+                <div class=" form-group row">
+                    <label for="id_volume" class="col-sm-3 col-form-label">Volume</label>
+                    <div class="col-sm-9">
+                        <input type="number" class="form-control" id="id_volume" name="volume" value="{{miFormulario.volume}}" placeholder="Entry volume" step=".01" min="0.01" required="">
+                    </div>
                 </div>
-            </div>
-            <br>
-            <div class="form-group row">
-                <label for="id_price" class="col-sm-3 col-form-label">price</label>
-                <div class="col-sm-9">
-                    <input type="numeric" class="form-control" id="id_price" name="price" value="{{miFormulario.price}}" placeholder=1 required="" >
+
+                <div class="form-group row">
+                    <label for="id_price" class="col-sm-3 col-form-label">Price</label>
+                    <div class="col-sm-9">
+                        <input type="number" class="form-control" id="id_price" name="price" value="{{miFormulario.price}}" placeholder="Entry price" step=".01" min="0.01" required="">
+                    </div>
                 </div>
-            </div>
-            <br>
-            <div class="form-group row">
-                <label for="id_stopPrice" class="col-sm-3 col-form-label">stopPrice</label>
-                <div class="col-sm-9">
-                    <input type="numeric" class="form-control" id="id_stopPrice" name="stopPrice" value="{{miFormulario.stopPrice}}" placeholder=0 required="" >
+
+                <div class="form-group row">
+                    <label for="id_stopPrice" class="col-sm-3 col-form-label">Stop Price</label>
+                    <div class="col-sm-9">
+                        <input type="number" class="form-control" id="id_stopPrice" name="stopPrice" value="{{miFormulario.stopPrice}}" placeholder="Entry stop price" step=".01" min="0" required="">
+                    </div>
                 </div>
-            </div>
-            <br>
-            <div class="form-group row">
-                <label for="id_tpPrice" class="col-sm-3 col-form-label">tpPrice</label>
-                <div class="col-sm-9">
-                    <input type="numeric" class="form-control" id="id_tpPrice" name="tpPrice" value="{{miFormulario.tpPrice}}" placeholder=0 required="" >
+
+                <div class="form-group row">
+                    <label for="id_tpPrice" class="col-sm-3 col-form-label">Tp Price</label>
+                    <div class="col-sm-9">
+                        <input type="number" class="form-control" id="id_tpPrice" name="tpPrice" value="{{miFormulario.tpPrice}}" placeholder="Entry Tp price" step=".01" min="0" required="">
+                    </div>
                 </div>
-            </div>
-            <br>
-            <div class="form-group row">
-                <label for="id_comission" class="col-sm-3 col-form-label">comission</label>
-                <div class="col-sm-9">
-                    <input type="numeric" class="form-control" id="id_comission" name="comission" value="{{miFormulario.comission}}" placeholder=0 required="" >
+
+                <div class="form-group row">
+                    <label for="id_comission" class="col-sm-3 col-form-label">Comission</label>
+                    <div class="col-sm-9">
+                        <input type="number" class="form-control" id="id_comission" name="comission" value="{{miFormulario.comission}}" placeholder="Entry comission" step=".01" min="0" required="">
+                    </div>
                 </div>
-            </div>
-            <br>
-            <div class="form-group row">
-                <label for="id_fee" class="col-sm-3 col-form-label">fee</label>
-                <div class="col-sm-9">
-                    <input type="numeric" class="form-control" id="id_fee" name="fee" value="{{miFormulario.fee}}" placeholder=0 required="" >
+
+                <div class="form-group row">
+                    <label for="id_fee" class="col-sm-3 col-form-label">Fee</label>
+                    <div class="col-sm-9">
+                        <input type="number" class="form-control" id="id_fee" name="fee" value="{{miFormulario.fee}}" placeholder="Entry fee" step=".01" min="0" required="">
+                    </div>
                 </div>
-            </div>
-            <br>
-            <div class="form-group row">
-                <label for="id_swap" class="col-sm-3 col-form-label">swap</label>
-                <div class="col-sm-9">
-                    <input type="numeric" class="form-control" id="id_swap" name="swap" value="{{miFormulario.swap}}" placeholder=0 required="" >
+
+                <div class="form-group row">
+                    <label for="id_swap" class="col-sm-3 col-form-label">Swap</label>
+                    <div class="col-sm-9">
+                        <input type="number" class="form-control" id="id_swap" name="swap" value="{{miFormulario.swap}}" placeholder="Entry swap" step=".01" min="0" required="">
+                    </div>
                 </div>
-            </div>
-            <br>
-            <div class="form-group row">
-                <label for="id_profit" class="col-sm-3 col-form-label">profit</label>
-                <div class="col-sm-9">
-                    <input type="numeric" class="form-control" id="id_profit" name="profit" value="{{miFormulario.profit}}" placeholder=0 required="" >
+
+                <div class="form-group row">
+                    <label for="id_profit" class="col-sm-3 col-form-label">Profit</label>
+                    <div class="col-sm-9">
+                        <input type="number" class="form-control" id="id_profit" name="profit" value="{{miFormulario.profit}}" placeholder="Entry profit" step=".01" required="">
+                    </div>
                 </div>
-            </div>
-            <br>
-            <div class="form-group row">
-                <label for="id_balance" class="col-sm-3 col-form-label">balance</label>
-                <div class="col-sm-9">
-                    <input type="numeric" class="form-control" id="id_balance" name="balance" value="{{miFormulario.balance}}" placeholder=0 required="" >
+                <br>
+                <div class="form-group row">
+                    <label for="id_balance" class="col-sm-3 col-form-label">Balance</label>
+                    <div class="col-sm-9">
+                        <input type="number" class="form-control" id="id_balance" name="balance" value="{{miFormulario.balance}}" placeholder="Entry balance" step=".01" min="0" required="">
+                    </div>
                 </div>
-            </div>
-            <br>
-            <div class="form-group row">
-                <label for="id_comment" class="col-sm-3 col-form-label">comment</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" id="id_comment" name="comment" value="{{miFormulario.comment}}" placeholder="comment" required="" >
+                <br>
+                <div class="form-group row">
+                    <label for="id_comment" class="col-sm-3 col-form-label">Comment</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" id="id_comment" name="comment" value="{{miFormulario.comment}}" placeholder="Entry comment" required="">
+                    </div>
                 </div>
-            </div>
-            <br>
-            <div class="text-end">
-                <input type="submit" class="btn btn-primary" value="Modificar">
-            </div>
-            <br>
-        </form>
+                <br>
+                <div class="text-end">
+                    <button type="submit" class="btn btn-success text-white ">
+                        <i class="fas fa-save" aria-hidden="true"></i> Modificar
+                    </button>
+                    <button class="btn btn-danger text-white " onclick="history.back()">
+                        <i class="fas fa-undo" aria-hidden="true"></i> Regresar
+                    </button>
+                </div>
+                <br>
+            </form>
+        </div>
     </div>
 </main>
 {% endblock %}

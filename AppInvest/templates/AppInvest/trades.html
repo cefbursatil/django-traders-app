@@ -12,114 +12,140 @@ Trades
     {% if miFormulario.errors %}
     <p style="color: red;"> Están mal los datos, revisar</p>
     {% endif %}
+
+    {% if miFormulario.errors %}
+    <div class="alert alert-danger alert-dismissible col-sm-12" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong>Error!</strong><br>
+        {% for field in miFormulario %}
+        <ul>
+            {% for error in field.errors %}
+            <li>
+                <p>{{ field.name }} ({{ error }})</p>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endfor %}
+    </div>
+    {% endif %}
     
     <h2>Añadir un nuevo trade</h2>
     <br>
-    <div class="row">
+    <div class=" col-12">
         <form action="" method="POST">
             {% csrf_token %}
             <div class="form-group row">
-                <label for="id_time" class="col-sm-3 col-form-label">time</label>
+                <label for="id_time" class="col-sm-3 col-form-label">Time</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="id_time" name="time" placeholder="01.01.2022" required="" >
+                    <input type="datetime-local" class="form-control" id="id_time" name="time" placeholder="01.01.2022" required="" >
                 </div>
             </div>
-            <br>
+
             <div class="form-group row">
-                <label for="id_asset" class="col-sm-3 col-form-label">asset</label>
+                <label for="id_asset" class="col-sm-3 col-form-label">Asset</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="id_asset" name="asset" placeholder="asset" required="" >
+                    <input type="text" class="form-control" id="id_asset" name="asset" placeholder="asset" required="" maxlength="40">
                 </div>
             </div>
-            <br>
+
             <div class="form-group row">
-                <label for="id_tradeDirection" class="col-sm-3 col-form-label">tradeDirection (0-entry, 1-exit)</label>
+                <label for="id_tradeDirection" class="col-sm-3 col-form-label">Trade Direction</label>
                 <div class="col-sm-9">
-                    <input type="numeric" inputmode="numeric" pattern="[0-1]" class="form-control" id="id_tradeDirection" name="tradeDirection" placeholder=0 required=""">
+                    <select name="tradeDirection" id="id_tradeDirection" class="form-control" required="">
+                        <option value="">-- Select --</option>
+                        <option value="0">Entry</option>
+                        <option value="1">Exit</option>
+                    </select>
                 </div>
             </div>
-            <br>
+
             <div class="form-group row">
-                <label for="id_typeentry" class="col-sm-3 col-form-label">typeentry (0-Buy, 1-Sell)</label>
+                <label for="id_typeentry" class="col-sm-3 col-form-label">Typeentry</label>
                 <div class="col-sm-9">
-                    <input type="numeric" inputmode="numeric" pattern="[0-1]" class="form-control" id="id_typeentry" name="typeentry" placeholder=0 required=""">
+                    <select name="typeentry" id="id_typeentry" class="form-control" required="">
+                        <option value="">-- Select --</option>
+                        <option value="0">Buy</option>
+                        <option value="1">Sell</option>
+                    </select>
                 </div>
             </div>
-            <br>
+
             <div class="form-group row">
-                <label for="id_volume" class="col-sm-3 col-form-label">volume</label>
+                <label for="id_volume" class="col-sm-3 col-form-label">Volume</label>
                 <div class="col-sm-9">
-                    <input type="numeric" class="form-control" id="id_volume" name="volume" placeholder=1 required="" >
+                    <input type="number" class="form-control" id="id_volume" name="volume" placeholder="Entry volume" step=".01" min="0.01" required="" >
                 </div>
             </div>
-            <br>
+
             <div class="form-group row">
-                <label for="id_price" class="col-sm-3 col-form-label">price</label>
+                <label for="id_price" class="col-sm-3 col-form-label">Price</label>
                 <div class="col-sm-9">
-                    <input type="numeric" class="form-control" id="id_price" name="price" placeholder=1 required="" >
+                    <input type="number" class="form-control" id="id_price" name="price" placeholder="Entry price" step=".01" min="0.01" required="" >
                 </div>
             </div>
-            <br>
+
             <div class="form-group row">
-                <label for="id_stopPrice" class="col-sm-3 col-form-label">stopPrice</label>
+                <label for="id_stopPrice" class="col-sm-3 col-form-label">Stop Price</label>
                 <div class="col-sm-9">
-                    <input type="numeric" class="form-control" id="id_stopPrice" name="stopPrice" placeholder=0 required="" >
+                    <input type="number" class="form-control" id="id_stopPrice" name="stopPrice" placeholder="Entry stop price" step=".01" min="0" required="" >
                 </div>
             </div>
-            <br>
+
             <div class="form-group row">
-                <label for="id_tpPrice" class="col-sm-3 col-form-label">tpPrice</label>
+                <label for="id_tpPrice" class="col-sm-3 col-form-label">Tp Price</label>
                 <div class="col-sm-9">
-                    <input type="numeric" class="form-control" id="id_tpPrice" name="tpPrice" placeholder=0 required="" >
+                    <input type="number" class="form-control" id="id_tpPrice" name="tpPrice" placeholder="Entry Tp price" step=".01" min="0" required="" >
                 </div>
             </div>
-            <br>
+
             <div class="form-group row">
-                <label for="id_comission" class="col-sm-3 col-form-label">comission</label>
+                <label for="id_comission" class="col-sm-3 col-form-label">Comission</label>
                 <div class="col-sm-9">
-                    <input type="numeric" class="form-control" id="id_comission" name="comission" placeholder=0 required="" >
+                    <input type="number" class="form-control" id="id_comission" name="comission" placeholder="Entry comission" step=".01" min="0" required="" >
                 </div>
             </div>
-            <br>
+            
             <div class="form-group row">
-                <label for="id_fee" class="col-sm-3 col-form-label">fee</label>
+                <label for="id_fee" class="col-sm-3 col-form-label">Fee</label>
                 <div class="col-sm-9">
-                    <input type="numeric" class="form-control" id="id_fee" name="fee" placeholder=0 required="" >
+                    <input type="number" class="form-control" id="id_fee" name="fee" placeholder="Entry fee" step=".01" min="0" required="" >
                 </div>
             </div>
-            <br>
+
             <div class="form-group row">
-                <label for="id_swap" class="col-sm-3 col-form-label">swap</label>
+                <label for="id_swap" class="col-sm-3 col-form-label">Swap</label>
                 <div class="col-sm-9">
-                    <input type="numeric" class="form-control" id="id_swap" name="swap" placeholder=0 required="" >
+                    <input type="number" class="form-control" id="id_swap" name="swap" placeholder="Entry swap" step=".01" min="0" required="" >
                 </div>
             </div>
-            <br>
+            
             <div class="form-group row">
-                <label for="id_profit" class="col-sm-3 col-form-label">profit</label>
+                <label for="id_profit" class="col-sm-3 col-form-label">Profit</label>
                 <div class="col-sm-9">
-                    <input type="numeric" class="form-control" id="id_profit" name="profit" placeholder=0 required="" >
+                    <input type="number" class="form-control" id="id_profit" name="profit" placeholder="Entry profit" step=".01" required="" >
                 </div>
             </div>
-            <br>
+            
             <div class="form-group row">
-                <label for="id_balance" class="col-sm-3 col-form-label">balance</label>
+                <label for="id_balance" class="col-sm-3 col-form-label">Balance</label>
                 <div class="col-sm-9">
-                    <input type="numeric" class="form-control" id="id_balance" name="balance" placeholder=0 required="" >
+                    <input type="number" class="form-control" id="id_balance" name="balance" placeholder="Entry balance" step=".01" min="0" required="" >
                 </div>
             </div>
-            <br>
+            
             <div class="form-group row">
-                <label for="id_comment" class="col-sm-3 col-form-label">comment</label>
+                <label for="id_comment" class="col-sm-3 col-form-label">Comment</label>
                 <div class="col-sm-9">
-                    <input type="text" class="form-control" id="id_comment" name="comment" placeholder="comment" required="" >
+                    <input type="text" class="form-control" id="id_comment" name="comment" placeholder="Entry comment" required ="">
                 </div>
             </div>
-            <br>
+            
             <div class="text-end">
                 <input type="submit" class="btn btn-primary" value="Enviar">
+                <button class="btn btn-danger text-white " onclick="history.back()">
+                    <i class="fas fa-undo" aria-hidden="true"></i> Regresar
+                </button>
             </div>
-            <br>
         </form>
     </div>
 </div>

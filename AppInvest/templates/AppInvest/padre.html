@@ -21,6 +21,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/3045bb72b9.js" crossorigin="anonymous"></script>
     <script src="{% static 'AppInvest/js/bootstrap.min.js' %}"></script>
+    <style>a{text-decoration: none !important;}</style>
 </head>
 
 <body> 
@@ -78,7 +79,8 @@
                                 </li>
                             </ul>
                             <div class="text-white">
-                                <span>Hola, {{user.username}}!!!.
+
+                                <span>Hola, {% if not user.first_name %}  {{user.username}} {% else %}  {{user.first_name}} {% endif %}!!!.
                                 </span> 
                             </div>
                         </div>  
@@ -185,17 +187,20 @@
                             <h6 class="text-uppercase mb-4 font-weight-bold">
                                 Sitios
                             </h6>
+                            {% if request.user.is_authenticated %}
                             <p>
                                 <a class="text-white" href="{% url 'EditarPerfil' %}">Tu cuenta</a>
                             </p>
+                            {% else %}
                             <p>
                                 <a class="text-white" href="{% url 'Register' %}">Registrate</a>
                             </p>
-                            <p>
+                            {% endif %}
+                            <!-- <p>
                                 <a class="text-white">Estadisticas</a>
-                            </p>
+                            </p> -->
                             <p>
-                                <a class="text-white">Ayuda</a>
+                                <a href="{% url 'About' %}" class="text-white">Ayuda</a>
                             </p>
                         </div>
 
@@ -234,15 +239,15 @@
                         <!-- Grid column -->
                         <div class="col-md-5 col-lg-4 ml-lg-0 text-center text-md-end">
                             <!-- Facebook -->
-                            <a class="btn btn-outline-light btn-floating m-1" class="text-white" role="button"><i class="fa-brands fa-facebook-f"></i></a>
+                            <a href="https://www.facebook.com/hashtag/trading" class="btn btn-outline-light btn-floating m-1" target="blank" class="text-white" role="button"><i class="fa-brands fa-facebook-f"></i></a>
                             
                             <!-- Twitter -->
-                            <a class="btn btn-outline-light btn-floating m-1" class="text-white" role="button"><i class="fa-brands fa-twitter"></i></a>
+                            <a href="https://www.twitter.com/hashtag/Trading?src=hashtag_click" class="btn btn-outline-light btn-floating m-1" target="blank" class="text-white" role="button"><i class="fa-brands fa-twitter"></i></a>
 
                             <!-- Instagram -->
-                            <a class="btn btn-outline-light btn-floating m-1" class="text-white" role="button"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="https://www.instagram.com/" class="btn btn-outline-light btn-floating m-1" target="blank" class="text-white" role="button"><i class="fa-brands fa-instagram"></i></a>
 
-                            <a class="btn btn-outline-light btn-floating m-1" class="text-white" role="button"><i class="fa-brands fa-github"></i></a>
+                            <a href="https://github.com/cefbursatil/django-traders-app" target="blank" class="btn btn-outline-light btn-floating m-1" class="text-white" role="button"><i class="fa-brands fa-github"></i></a>
                         </div>
                         <!-- Grid column -->
                     </div>

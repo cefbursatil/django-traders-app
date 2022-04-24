@@ -10,15 +10,33 @@ Trading Strategies
 <!--Aquí va lo que cambia, y lo asociado a está vista :) -->
 
 <main class="container">
-    <div class="container px-4 py-5" id="featured-3">
-        <h4>Import trades</h4>
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <input type="file" name="tradesFile">
-    <button type="submit">Upload</button>
-  </form>
-
-
+  <div class="container px-4 py-5" id="featured-3">
+    <h4>Import trades</h4>
+    {% if messages %}
+    <ul class="messages alert-danger" >
+      {% for message in messages %}
+      <li{% if message.tags %} class="" {% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    
+    <div class="row">
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="col-12">
+          <input type="file" name="tradesFile" required="" accept="text/csv, .csv">
+        </div>
+        <br>
+        <div class="text-end">
+          <button type="submit" class="btn btn-primary text-white">
+            <i class="fas fa-upload" aria-hidden="true"></i> Upload
+          </button>
+          <button class="btn btn-danger text-white " onclick="history.back()">
+            <i class="fas fa-undo" aria-hidden="true"></i> Regresar
+          </button>
+        </div>
+      </form>
     </div>
+  </div>
 </main>
 {% endblock %}

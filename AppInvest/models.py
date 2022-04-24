@@ -50,5 +50,9 @@ class Avatar(models.Model):
         return self.user.username
     
     def delete(self, using=None, keep_parents=False):
-        self.avatar.storage.delete(self.avatar.name)
-        super().delete()
+        try:
+            self.avatar.storage.delete(self.avatar.name)
+            super().delete()
+        except :
+            pass
+        

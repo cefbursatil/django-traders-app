@@ -19,7 +19,7 @@ Trading Strategies
         <div class="row">
             {% for p in trades %}
 
-            <div class="col-12 col-md-6 col-lg-4">
+            <div class="col-12 col-md-6 col-lg-4 p-1">
 
                 <!-- Card -->
                 <div class="card card-border border-primary shadow-lg mb-6 mb-md-8 lift lift-lg">
@@ -43,18 +43,24 @@ Trading Strategies
 
                         <!-- Text -->
                         <p class="text-gray-700 mb-5">
-                            {{p.price}}
+                            Precio: {{p.price}}
                         </p>
-                        <p>{{p.tradeDirection}}</p>
+                        <p>Dirección:  
+                            {% if p.tradeDirection == 0 %}
+                                Entry
+                            {% else %}
+                                Exit
+                            {% endif %}
+                        </p>
                         <div class="col-auto">
                             <a href="{% url 'EliminarTrade' p.id tradingstrat_id %}">
                                 <button class="btn btn-danger text-white">
-                                    Eliminar
+                                    <i class="fas fa-trash" aria-hidden="true"></i> Eliminar
                                 </button>
                             </a>
                             <a href="{% url 'EditarTrade' p.id tradingstrat_id %}">
                                 <button class="btn btn-primary lift">
-                                    Editar
+                                    <i class="fas fa-edit" aria-hidden="true"></i> Editar
                                 </button>
                             </a>
                         </div>
@@ -64,18 +70,26 @@ Trading Strategies
 
             </div>
             {% endfor %}
-
-            <a href="{% url 'TradesAdd' tradingstrat_id %}">
-                <button class="btn btn-danger text-white">
-                    Add New
-                </button>
-            </a>
-            <a href="{% url 'importtrade' tradingstrat_id %}">
-                <button class="btn btn-danger text-white">
-                    Import Trades from csv
-                </button>
-            </a>
+            <div class="col-12 col-md-6 col-lg-4  float-right">
+                <a href="{% url 'TradesAdd' tradingstrat_id %}">
+                    <button class="btn btn-success text-white btn-block">
+                        <i class="fas fa-plus" aria-hidden="true"></i> Add New
+                    </button>
+                </a>
+                <br>
+                <a href="{% url 'importtrade' tradingstrat_id %}">
+                    <button class="btn btn-primary text-white btn-block">
+                        <i class="fas fa-cloud-upload" aria-hidden="true"></i> Import Trades from csv
+                    </button>
+                </a>
+                <br>
+                <a href="{% url 'TradingStrategies' %}">
+                    <button class="btn btn-danger text-white btn-block">
+                        <i class="fas fa-undo" aria-hidden="true"></i> Regresar
+                    </button>
+                </a>
         </div>
+    </div>
 
 
 

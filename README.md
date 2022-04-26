@@ -16,3 +16,8 @@ Ejecutar las migraciones e inicializar el servidor!
 </code>
 
 La App se ejecutara en  http://127.0.0.1:8000
+
+
+Explicación del funcionamiento de la App
+
+https://www.youtube.com/watch?v=gDbMqyNTVDE

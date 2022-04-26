@@ -114,7 +114,7 @@ def listTrades(request, tradingstrat_id):
 
 @login_required
 def trades(request,tradingstrat_id):
-
+    
     if request.method == 'POST':
         miFormulario = TradeForm(request.POST)
         # aquí mellega toda la información del html
@@ -136,8 +136,11 @@ def trades(request,tradingstrat_id):
                            swap=informacion['swap'],profit=informacion['profit'],
                            balance=informacion['balance'], comment=informacion['comment'])
             trade.save()
+
+            trades = Trades.objects.filter(strategy=tradingstrat_id)
             # Vuelvo al inicio o a donde quieran
-            return render(request, "AppInvest/list_trades.html")
+            contexto = {"trade": trades, "miFormulario": miFormulario,"tradingstrat_id":tradingstrat_id}
+            return render(request, "AppInvest/list_trades.html",contexto)
     else:
         print("NOVALID FORM")
         miFormulario = TradeForm()  # Formulario vacio para construir el html
@@ -150,7 +153,7 @@ def eliminarTrades(request, trade_id,tradingstrat_id):
     trade = Trades.objects.get(id=trade_id)
     trade.delete()
     # vuelvo al menú
-    traders = Trades.objects.filter(strategy=tradingstrat_id)
+    trades = Trades.objects.filter(strategy=tradingstrat_id)
     contexto = {"trades": trades,"tradingstrat_id":tradingstrat_id}
     return render(request, "AppInvest/list_trades.html", contexto)
 
@@ -314,8 +317,10 @@ def tradingstrategies(request):
             tradingstrat = TradingStrategies(
                 nombre=informacion['nombre'], activo=informacion['activo'], descripcion=informacion['descripcion'], trader=request.user)
             tradingstrat.save()
+            tradingstrats = TradingStrategies.objects.filter(trader=request.user.id)
+            contexto = {"tradingstrat": tradingstrats}
             # Vuelvo al inicio o a donde quieran
-            return render(request, "AppInvest/list_trading_strat.html")
+            return render(request, "AppInvest/list_trading_strat.html", contexto)
     else:
         miFormulario = TradingStrategyForm()  # Formulario vacio para construir el html
     return render(request, "AppInvest/tradingstrategies.html", {"miFormulario": miFormulario})
